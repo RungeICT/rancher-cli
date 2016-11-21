@@ -7,5 +7,4 @@ COPY package.json /app/
 RUN npm install --production
 COPY /build /app/build/
 COPY cli.js /app/
-RUN npm link
-ENTRYPOINT ranch
+ENTRYPOINT ["node","./cli.js"]

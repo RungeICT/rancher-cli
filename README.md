@@ -50,7 +50,7 @@ ranch --protocol https --env 1a5 --host test-server:8000 --username {username} -
 
 ### Docker
 ```
-docker run --rm --it rungeict/rancher-cli --protocol https --env 1a5 --host test-server:8000 --username {username} --password {password} stack restart Database\Postgres
+docker run --rm -it rungeict/rancher-cli --protocol https --env 1a5 --host test-server:8000 --username {username} --password {password} service restart Database\Postgres
 ```
 
 ### TODO
