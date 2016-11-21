@@ -39,6 +39,6 @@
     "bluebird": "^3.4.6",
     "debug": "^2.3.2",
     "minimist": "^1.2.0",
-    "rancher-lib": "^0.0.5"
+    "rancher-lib": "0.0.5"
   }
 }
