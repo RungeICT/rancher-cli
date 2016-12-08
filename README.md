@@ -30,7 +30,7 @@ Command
 ranch --file ./config.json stack restart Database\Postgres 
 ```
 
-### Enviroment
+### Environment
 ```
 SET RCLI_PROTOCOL=https
 SET RCLI_ENV=1a5
@@ -45,13 +45,24 @@ ranch stack restart Database\Postgres
 
 ### Command Line
 ```
-ranch --protocol https --env 1a5 --host test-server:8000 --username {username} --password {password} stack restart Database\Postgres 
+ranch --protocol https --env 1a5 --host test-server:8000 --username {username} --password {password} service restart Database\Postgres 
 ```
 
 ### Docker
 ```
 docker run --rm -it rungeict/rancher-cli --protocol https --env 1a5 --host test-server:8000 --username {username} --password {password} service restart Database\Postgres
 ```
+
+### Commands
+```
+ranch ${....args} service restart Database\Postgres 
+```
+
+#### service
+ - restart ${Service Path}
+ - restart-containers ${Service Path} - Will only restart containers under a service.
+#### container
+ - restart ${HostName} ${ContainerName}
 
 ### TODO
  - Flesh out the rest of the api, it can only restart services and containers

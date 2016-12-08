@@ -24,7 +24,6 @@ var argv = (0, _minimist2.default)(process.argv.slice(2));
 log.info("args", argv);
 
 function loadFileConfig() {
-  var promise = void 0;
   if (argv.file) {
     return (0, _fs.readFileAsync)(_path3.default.resolve(process.cwd(), argv.file)).then(function (data) {
       return JSON.parse(data);
@@ -46,11 +45,19 @@ loadFileConfig().then(function (config) {
   var actionTask = argv._[1];
   switch (actionName) {
     case "service":
+      var _path = argv._[2];
       switch (actionTask) {
         case "restart":
-          var _path = argv._[2];
           return env.getServiceByPath(_path).then(function (service) {
             return service.restart();
+          }); //BUG: this does not always seem to work
+        case "restart-containers":
+          return env.getServiceByPath(_path).then(function (service) {
+            return service.getContainers().then(function (containers) {
+              return Promise.all(containers.map(function (container) {
+                return container.restart();
+              }));
+            });
           });
       }
       break;

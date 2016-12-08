@@ -10,11 +10,10 @@ const argv = minimist(process.argv.slice(2));
 log.info("args", argv);
 
 function loadFileConfig() {
-  let promise;
-  if(argv.file) {
+  if (argv.file) {
     return readFileAsync(path.resolve(process.cwd(), argv.file))
-      .then((data) => JSON.parse(data))
-  } 
+      .then((data) => JSON.parse(data));
+  }
   return Promise.resolve({});
 }
 
@@ -29,17 +28,21 @@ loadFileConfig().then((config) => {
   const env = new Environment(connection, connection.env);
   const actionName = argv._[0];
   const actionTask = argv._[1];
-  switch(actionName) {
+  switch (actionName) {
     case "service":
-      switch(actionTask) {
+      const path = argv._[2];
+      switch (actionTask) {
         case "restart":
-          const path = argv._[2];
           return env.getServiceByPath(path)
-           .then((service) => service.restart());
+            .then((service) => service.restart()); //BUG: this does not always seem to work
+        case "restart-containers":
+          return env.getServiceByPath(path)
+            .then((service) => service.getContainers()
+              .then((containers) => Promise.all(containers.map((container) => container.restart()))));
       }
       break;
     case "container":
-      switch(actionTask) {
+      switch (actionTask) {
         case "restart":
           const host = argv._[2];
           const container = argv._[3];
